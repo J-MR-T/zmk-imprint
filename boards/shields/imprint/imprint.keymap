@@ -85,6 +85,7 @@
     behaviors {
         hrms_l: hrms_l_behavior {
             compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <280>;
             quick-tap-ms = <175>;
@@ -96,6 +97,7 @@
 
         hrms_r: hrms_r_behavior {
             compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
             flavor = "balanced";
             tapping-term-ms = <280>;
             quick-tap-ms = <175>;
