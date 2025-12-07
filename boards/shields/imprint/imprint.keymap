@@ -12,6 +12,8 @@
     continue-list = <UNDERSCORE MINUS BACKSPACE DELETE>;
 };
 
+// TODO these keybinds are all out of date bc the ones in zmk studio are the right ones. Need an export feature there...
+
 / {
     keymap {
         compatible = "zmk,keymap";
@@ -42,7 +44,7 @@
             >;
         };
 
-        Keyboard_Control_Layer {
+        Symbol_Layer {
             bindings = <
 &trans       &trans        &trans        &trans        &trans        &trans                  &trans  &trans           &trans           &trans           &trans           &trans
 &bt BT_CLR   &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4            &trans  &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &trans           &trans           &trans
@@ -55,12 +57,25 @@
             >;
         };
 
-        Auto_Mouse_Layer {
+        Keyboard_Control_Layer {
             bindings = <
 &trans  &trans  &trans     &trans     &trans     &trans            &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans     &trans     &trans     &trans            &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans     &trans     &trans     &trans            &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &mkp RCLK  &mkp MCLK  &mkp LCLK  &trans            &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans     &trans     &trans     &trans            &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans     &trans     &trans                               &trans  &trans  &trans  &trans  &trans
+                                      &trans     &trans  &trans    &trans  &trans  &trans
+                                      &trans     &trans  &trans    &trans  &trans  &trans
+            >;
+        };
+
+        Umlaut_Layer {
+            bindings = <
+&trans  &trans  &trans     &trans     &trans     &trans            &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans     &trans     &trans     &trans            &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans     &trans     &trans     &trans            &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans     &trans     &trans     &trans            &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans     &trans     &trans     &trans            &trans  &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans     &trans     &trans                               &trans  &trans  &trans  &trans  &trans
                                       &trans     &trans  &trans    &trans  &trans  &trans
@@ -98,19 +113,22 @@
 
 // right hand trackball configuration
 
+/*
+TODO something about this doesnt work. probably the layer 5 thing, but maybe the scaling or the name itself
  &trackball_peripheral_listener {
     input-processors =
      <&zip_xy_scaler 1 5>,
      // activate layer 5 within 500ms of the trackball moving
      <&zip_temp_layer 5 500>;
  };
+ */
 
 // left hand trackball configuration
 
 &trackball_central_listener {
     input-processors =
         // multiply sensitivity by 1, divide by 30 (make it slower for scrolling),
-        <&zip_xy_scaler 1 40>,
+        <&zip_xy_scaler 1 50>,
         // make this trackball output scrolling events by default instead of cursor movement,
         <&zip_xy_to_scroll_mapper>,
         // invert vertical scrolling so that the view moves in the same direction as the top of the trackball.,
