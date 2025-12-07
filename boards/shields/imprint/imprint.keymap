@@ -67,19 +67,6 @@
                                       &trans     &trans  &trans    &trans  &trans  &trans
             >;
         };
-
-        factory_test {
-            bindings = <
-&kp N0  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5            &kp N6  &kp N7  &kp N8  &kp N9  &kp N0  &kp N1
-&kp N2  &kp N3  &kp N4  &kp N5  &kp N6  &kp N7            &kp N8  &kp N9  &kp N0  &kp N1  &kp N2  &kp N3
-&kp N4  &kp N5  &kp N6  &kp N7  &kp N8  &kp N9            &kp N0  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5
-&kp N6  &kp N7  &kp N8  &kp N9  &kp N0  &kp N1            &kp N2  &kp N3  &kp N4  &kp N5  &kp N6  &kp N7
-&kp N8  &kp N9  &kp N0  &kp N1  &kp N2  &kp N3            &kp N4  &kp N5  &kp N6  &kp N7  &kp N8  &kp N9
-&kp N0  &kp N1  &kp N2  &kp N3  &kp N4                            &kp N6  &kp N7  &kp N8  &kp N9  &kp N0
-                                &kp N1  &kp N2  &kp N3    &kp N4  &kp N5  &kp N6
-                                &kp N7  &kp N8  &kp N9    &kp N0  &kp N1  &kp N2
-            >;
-        };
     };
 
     behaviors {
@@ -91,7 +78,7 @@
             quick-tap-ms = <175>;
             require-prior-idle-ms = <150>;
             bindings = <&kp>, <&kp>;
-            hold-trigger-key-positions = <KEYS_MAIN_R KEYS_THUMBS_ALL>;
+            /*hold-trigger-key-positions = <KEYS_MAIN_R KEYS_THUMBS_ALL>;*/
             hold-trigger-on-release;
         };
 
@@ -103,7 +90,7 @@
             quick-tap-ms = <175>;
             require-prior-idle-ms = <150>;
             bindings = <&kp>, <&kp>;
-            hold-trigger-key-positions = <KEYS_MAIN_L KEYS_THUMBS_ALL>;
+            /*hold-trigger-key-positions = <KEYS_MAIN_L KEYS_THUMBS_ALL>;*/
             hold-trigger-on-release;
         };
     };
@@ -111,18 +98,19 @@
 
 // right hand trackball configuration
 
-// &trackball_peripheral_listener {
-//    input-processors =
-//     activate layer 3 within 500ms of the trackball moving
-//     <&zip_temp_layer 3 500>;
-// };
+ &trackball_peripheral_listener {
+    input-processors =
+     <&zip_xy_scaler 1 5>,
+     // activate layer 5 within 500ms of the trackball moving
+     <&zip_temp_layer 5 500>;
+ };
 
-//left hand trackball configuration
+// left hand trackball configuration
 
 &trackball_central_listener {
     input-processors =
-        // multiply sensitivity by 1, divide by 3 (make it slower for scrolling),
-        <&zip_xy_scaler 1 30>,
+        // multiply sensitivity by 1, divide by 30 (make it slower for scrolling),
+        <&zip_xy_scaler 1 40>,
         // make this trackball output scrolling events by default instead of cursor movement,
         <&zip_xy_to_scroll_mapper>,
         // invert vertical scrolling so that the view moves in the same direction as the top of the trackball.,
