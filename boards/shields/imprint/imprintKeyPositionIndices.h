@@ -23,17 +23,8 @@
                         │ LH5 LH4 LH3                 RH3 RH4 RH5 │
                         ╰─────────────                ─────────────╯
  */
-#pragma once
-
-/*
- * Convenience macro allowing for layer definitions in a key arrangement like
- * the above key matrix.
- *
- * Note that this file needs to be sourced *after* helper.h so that ZMK_LAYER is
- * already defined.
- */
-#define IMPRINT_LAYER(name, row0, row1, row2, row3, row4, row5, thumb_row_0, thumb_row_1) \
-  ZMK_LAYER(name, row0 row1 row2 row3 row4 row5 thumb_row_0 thumb_row_1)
+#ifndef KEY_POSITION_INDICES_H
+#define KEY_POSITION_INDICES_H
 
 // Left ceiling row
 #define LC0  5
@@ -175,3 +166,5 @@
 #define KEYS_THUMBS_ALL KEYS_THUMBS_L KEYS_THUMBS_R
 
 #define KEYS_ALL KEYS_MAIN_ALL KEYS_THUMBS_ALL
+
+#endif // KEY_POSITION_INDICES_H
