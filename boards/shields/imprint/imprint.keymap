@@ -9,7 +9,7 @@
 
 #include "imprintKeyPositionIndices.h"
 
-#include "../../shared.h"
+#include "shared.h"
 
 &caps_word {
     continue-list = <UNDERSCORE MINUS BACKSPACE DELETE minus_underscore>;
