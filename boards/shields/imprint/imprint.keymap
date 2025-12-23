@@ -7,7 +7,36 @@
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/input_transform.h>
 
+#include "imprintKeyPositionIndices.h"
+
+#include "../../shared.h"
+
+&caps_word {
+    continue-list = <UNDERSCORE MINUS BACKSPACE DELETE minus_underscore>;
+};
+
+
 / {
+    behaviors {
+        // This creates a minus that turns into an underscore when shifted also by caps_word
+        minus_underscore: minus_underscore {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp MINUS>, <&kp UNDERSCORE>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        hrms_l: hrms_l_behavior {
+            SHARED_HRM_COMPONENTS
+            hold-trigger-key-positions = <KEYS_MAIN_R KEYS_THUMBS_ALL>;
+        };
+
+        hrms_r: hrms_r_behavior {
+            SHARED_HRM_COMPONENTS
+            hold-trigger-key-positions = <KEYS_MAIN_L KEYS_THUMBS_ALL>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -65,17 +94,17 @@
     };
 };
 
-// //right hand trackball overrides
-// &trackball_peripheral_listener {
-//     input-processors =
-//         <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>,//this gets it to the default installation orientation
-//         <&zip_temp_layer 3 500>;//activate layer 3 within 500ms of the trackball moving
-// };
-// //left hand trackball overrides
-// &trackball_central_listener {
-//     input-processors = 
-//         <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>,//this gets it to the default installation orientation
-//         <&zip_xy_scaler 1 3>,//multiply sensitivity by 1, divide by 3 (make it slower for scrolling)
-//         <&zip_xy_to_scroll_mapper>,//make this trackball output scrolling events by default instead of cursor movement
-//         <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>;//invert vertical scrolling so that the view moves in the same direction as the top of the trackball.
-// };
+//right hand trackball overrides
+/*&trackball_peripheral_listener {*/
+/*    input-processors =*/
+/*        <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>,//this gets it to the default installation orientation*/
+/*        <&zip_temp_layer 3 500>;//activate layer 3 within 500ms of the trackball moving*/
+/*};*/
+//left hand trackball overrides
+&trackball_central_listener {
+    input-processors =
+        <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>,//this gets it to the default installation orientation
+        <&zip_xy_scaler 1 40>,//multiply sensitivity by 1, divide by 40 (make it slower for scrolling)
+        <&zip_xy_to_scroll_mapper>,//make this trackball output scrolling events by default instead of cursor movement
+        <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>;//invert vertical scrolling so that the view moves in the same direction as the top of the trackball.
+};
