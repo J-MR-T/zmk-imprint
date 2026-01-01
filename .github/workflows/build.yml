@@ -53,8 +53,8 @@ jobs:
       - name: Inject shared zmk-stuff context for West
         run: |
           # 1. Copy all files from the parent (zmk-stuff) into config/shared/
-          mkdir -p boards/shields/imprint/shared \;
-          find .. -maxdepth 1 -type f -exec cp {} boards/shields/imprint/shared/ \;
+          mkdir config/shared \;
+          find .. -maxdepth 1 -type f -exec cp {} config/shared/ \;
 
       - name: Create build directory
         run: |

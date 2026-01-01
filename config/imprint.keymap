@@ -1,0 +1,115 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/rgb.h>
+#include <dt-bindings/zmk/ext_power.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/pointing.h>
+#include <input/processors.dtsi>
+#include <dt-bindings/zmk/input_transform.h>
+
+#include "imprintKeyPositionIndices.h"
+
+#include "shared/shared.h"
+
+// fix this later, seems to be a problem with the custom behavior
+//&caps_word {
+    //continue-list = <UNDERSCORE MINUS BACKSPACE DELETE minus_underscore>;
+//};
+
+
+/ {
+    chosen { zmk,matrix-transform = &imprint_function_row; };
+
+    behaviors {
+        // This creates a minus that turns into an underscore when shifted also by caps_word
+        minus_underscore: minus_underscore {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp MINUS>, <&kp UNDERSCORE>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        HRM_BEHAVIORS
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+ &kp GRAVE  &kp F1    &kp F2    &kp F3    &kp F4  &kp F5                                         &kp F7      &kp F8     &kp F9    &kp F10  &kp F11  &kp F12
+ &kp EQL    &kp N1    &kp N2    &kp N3    &kp N4  &kp N5                                         &kp N6      &kp N7     &kp N8    &kp N9   &kp N0   &kp MINUS
+ &kp TAB    &kp Q     &kp W     &kp E     &kp R   &kp T                                          &kp Y       &kp U      &kp I     &kp O    &kp P    &kp BSLH
+ // DEFAULT_HOME_ROW_MAP is basically a fancier version of this, but with hrms, and esc/lctrl overloaded:
+ //&kp LCTRL  &kp A     &kp S     &kp D     &kp F   &kp G                                          &kp H       &kp J      &kp K     &kp L    &kp SEMI &kp SQT
+
+        DEFAULT_HOME_ROW_MAP
+
+ &kp LSHFT  &kp Z     &kp X     &kp C     &kp V   &kp B                                          &kp N       &kp M      &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
+                      &kp LGUI  &kp LALT                                                                                &kp LBKT  &kp RBKT
+                                                  &kp BSPC  &kp DEL  &none       &mkp LCLK &mkp RCLK &kp SPACE
+                                                  // because of the hardware problem with the leftmost lower left thumb key, these assignments are all "bit-rotated" left by one, i.e. rightmost physical key does &none
+                                                  &none     &mo NAV  &mo SYMBOLS &caps_word &mo MAGIC &kp ENTER
+            >;
+        };
+
+        Layer_1_NAV {
+            bindings = <
+  &trans  &trans  &trans  &trans  &trans  &trans                         &trans      &trans          &trans           &trans       &trans  &trans
+  &trans  &trans  &trans  &trans  &trans  &trans                         &trans      &trans          &trans           &trans       &trans  &trans
+  &trans  &trans  &trans  &trans  &trans  &trans                         &trans      &kp    HOME     &kp    END       &trans       &trans  &trans
+  &trans  &trans  &trans  &trans  &trans  &trans                         &kp    LEFT &kp    DOWN     &kp    UP        &kp    RIGHT &trans  &trans
+  &trans  &trans  &trans  &trans  &trans  &trans                         &trans      &kp    LC(LEFT) &kp    LC(RIGHT) &trans       &trans  &trans
+
+                  &trans  &trans                                                                     &trans           &trans
+                                 &trans  &kp C_BRI_DEC &kp C_BRI_INC  &kp C_VOL_DN &kp C_VOL_UP &kp C_PP
+                                 &trans  &trans &trans                &kp C_PREV   &kp C_NEXT   &trans
+            >;
+        };
+
+        Layer_2_SYMBOLS {
+            bindings = <
+ &trans  &trans  &trans  &trans  &trans  &trans                                     &trans  &trans  &trans  &trans  &trans  &trans
+ &trans  &trans  &trans  &trans  &trans  &trans                                     &trans  &trans  &trans  &trans  &trans  &trans
+ &trans  &trans  &trans  &trans  &trans  &trans                                     &trans  &trans  &trans  &trans  &trans  &trans
+ &trans  &trans  &trans  &trans  &trans  &trans                                     &trans  &trans  &trans  &trans  &trans  &trans
+ &trans  &trans  &trans  &trans  &trans  &trans                                     &trans  &trans  &trans  &trans  &trans  &trans
+                 &trans  &trans                                                                     &trans  &trans
+                                         &trans  &trans &trans        &trans &trans &trans
+                                         &trans  &trans &trans        &trans &trans &trans
+            >;
+        };
+
+        Layer_3_MAGIC {
+            bindings = <
+ &trans  &trans  &trans  &trans  &trans  &trans                                     &trans  &trans  &trans  &trans  &trans  &trans
+ &bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &trans         &trans  &trans  &trans  &trans  &trans  &trans
+ &trans  &trans  &trans  &trans  &trans  &studio_unlock                             &rgb_ug RGB_TOG  &rgb_ug RGB_HUI  &rgb_ug RGB_SAI  &rgb_ug RGB_BRI  &trans  &trans
+ &trans  &trans  &trans  &trans  &trans  &trans                                     &trans  &rgb_ug RGB_HUD  &rgb_ug RGB_SAD  &rgb_ug RGB_BRD  &trans  &trans
+ &trans  &trans  &trans  &trans  &trans  &trans                                     &trans  &trans  &trans  &trans  &trans  &trans
+                 &trans  &trans                                                                     &trans  &trans
+                                         &trans  &trans &trans        &trans &trans &trans
+                                         &trans  &trans &trans        &trans &trans &trans
+            >;
+        };
+
+        // TODO
+        /*Layer_4_UMLAUT {};*/
+    };
+};
+
+//right hand trackball overrides
+&trackball_peripheral_listener {
+    input-processors =
+        <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>,//this gets it to the default installation orientation
+        <&zip_xy_scaler 1 10>;//multiply sensitivity by 1, divide by 40 (make it slower for precise pointing, then do software mouse acceleration independently)
+        /*<&zip_temp_layer 3 500>;//activate layer 3 within 500ms of the trackball moving*/
+};
+//left hand trackball overrides
+&trackball_central_listener {
+    input-processors =
+        <&zip_xy_transform INPUT_TRANSFORM_XY_SWAP>,//this gets it to the default installation orientation
+        <&zip_xy_scaler 1 40>,//multiply sensitivity by 1, divide by 40 (make it slower for scrolling)
+        <&zip_xy_to_scroll_mapper>,//make this trackball output scrolling events by default instead of cursor movement
+        <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>;//invert vertical scrolling so that the view moves in the same direction as the top of the trackball.
+};

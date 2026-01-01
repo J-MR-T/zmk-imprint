@@ -1,9 +1,0 @@
-file_format: "1"
-id: assimilator-bt
-name: assimilator-bt
-type: board
-arch: arm
-outputs:
-  - usb
-  - ble
-url: https://cyboard.digital
